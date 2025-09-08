@@ -1,0 +1,4 @@
+[build]
+entrypoints = ["src/cli.ts"]
+outdir = "dist"
+target = "bun"

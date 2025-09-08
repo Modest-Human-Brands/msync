@@ -1,0 +1,25 @@
+# Build files
+dist
+
+# Node dependencies
+node_modules
+
+# Package Manager
+package.json
+bun.lock
+
+# Logs
+logs
+*.log
+
+# Misc
+.DS_Store
+.fleet
+.idea
+
+# Test
+coverage
+
+# Env files
+.env*
+!.env.example

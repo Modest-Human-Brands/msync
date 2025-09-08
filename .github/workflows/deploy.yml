@@ -1,0 +1,61 @@
+name: NPM CD
+run-name: ${{ github.ref_name }}
+
+permissions:
+  contents: write
+  packages: write
+  attestations: write
+  id-token: write
+
+on:
+  release:
+    types:
+      - published
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref_name }}
+  cancel-in-progress: true
+
+env:
+  REPO: ${{ github.repository }}
+  VERSION: ${{ github.ref_name }}
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        registry:
+          - url: https://npm.pkg.github.com
+            token: 'GITHUB_TOKEN'
+            scope: '@${{ github.repository_owner }}'
+          - url: https://registry.npmjs.org
+            token: 'NPM_TOKEN'
+            scope: '@${{ github.repository_owner }}'
+
+    steps:
+      - name: 📥 Checkout Repo
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: 🛠️ Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+          registry-url: ${{ matrix.registry.url }}
+          scope: ${{ matrix.registry.scope }}
+
+      - name: 📦 Install Dependencies
+        run: bun install --frozen-lockfile
+
+      - name: ⚙️ Publish Package
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets[matrix.registry.token] }}
+          REGISTRY_URL: ${{ matrix.registry.url }}
+        run: |
+          CLEAN_URL="${REGISTRY_URL#https://}"
+          echo "//${CLEAN_URL}/:_authToken=${NODE_AUTH_TOKEN}" > ./.npmrc
+          echo "registry=${REGISTRY_URL}" >> ./.npmrc
+          bun publish --no-git-checks --access public
+          rm ./.npmrc
