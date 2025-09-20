@@ -6,7 +6,7 @@
   </picture>
 </p>
 
-# UnStack
+# RCP Tools
 
 [![npm version](https://img.shields.io/npm/v/@shba007/rcp-tools?color=blue)](https://npmjs.com/package/@shba007/rcp-tools)
 [![npm downloads](https://img.shields.io/npm/dm/@shba007/rcp-tools?color=blue)](https://npmjs.com/package/@shba007/rcp-tools)
@@ -75,84 +75,6 @@ const {} = require('@shba007/rcp-tools')
 ```js
 import {} from 'https://esm.sh/@shba007/rcp-tools'
 ```
-
-## Feature
-
-Currently supports the following
-
-- Frameworks:-
-  - Frontend:-
-    - Angular
-    - React
-    - Vue
-    - Svelte
-    - Preact
-    - Solid
-    - Remix
-    - Qwik
-    - Lit
-    - TiniJS
-    - Alpine
-    - Stencil
-    - Mithril
-    - Astro
-    - Vuepress
-    - Vitepress
-    - Docus
-    - Meteor
-
-  - Backend:-
-    - Express
-    - Fastify
-    - Koa
-    - Feathers
-    - NestJS
-    - Nitro
-
-  - FullStack:-
-    - Analog
-    - Next
-    - Gatsby
-    - Nuxt
-    - Gridsome
-    - Svelte Kit
-    - Ember js
-    - Fresh
-    - Redwood
-    - Hydrogen
-
-Currently displays the following details
-
-- Description
-- Starts
-- Published At
-- Updated At
-- Author
-- Version
-- GitHub Link
-- Website Link
-- Init Command
-
-## Vision and Roadmap
-
-- Update Published At Using NPM
-- Include all framework's Icons of JS Ecosystem
-  - Adonis JS
-  - Django
-  - Flask
-  - FastAPI
-
-- Add all Runtime
-  - Node.js
-  - Deno
-  - Bun
-
-- Add all Build Tools/Bundler
-  - Webpack
-  - Vite
-  - Rollup
-  - Parcel
-  - Snowpack
 
 ## Development
 
