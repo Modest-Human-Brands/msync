@@ -1,6 +1,6 @@
-import fs from 'node:fs/promises'
 import path from 'node:path'
-import { createCanvas, loadImage } from 'canvas'
+import fs from 'node:fs/promises'
+import { createCanvas, loadImage } from '@napi-rs/canvas'
 
 export type Position = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right' | 'center'
 
@@ -11,10 +11,8 @@ export default async function (srcPath: string, destPath: string, watermarkPath:
   const canvas = createCanvas(image.width, image.height)
   const ctx = canvas.getContext('2d')
 
-  // base image
   ctx.drawImage(image, 0, 0, image.width, image.height)
 
-  // resize watermark
   const wmarkWidth = Math.floor((image.width * size) / 100)
   const scale = wmarkWidth / watermark.width
   const wmarkHeight = Math.floor(watermark.height * scale)
@@ -53,7 +51,7 @@ export default async function (srcPath: string, destPath: string, watermarkPath:
   ctx.globalAlpha = 1
 
   await fs.mkdir(path.dirname(destPath), { recursive: true })
-  const buffer = /\.(jpe?g)$/i.test(destPath) ? canvas.toBuffer('image/jpeg', { quality: 0.92 }) : canvas.toBuffer('image/png')
+  const buffer = /\.(jpe?g)$/i.test(destPath) ? canvas.toBuffer('image/jpeg') : canvas.toBuffer('image/png')
 
   await fs.writeFile(destPath, buffer)
 }
