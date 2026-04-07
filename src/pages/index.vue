@@ -32,9 +32,7 @@ const tools = [
 ];
 
 const filtered = computed(() =>
-  tools.filter((t) =>
-    (t.title + t.description).toLowerCase().includes(query.value.toLowerCase())
-  )
+  tools.filter((t) => (t.title + t.description).toLowerCase().includes(query.value.toLowerCase())),
 );
 
 function onSubmit() {
@@ -46,10 +44,13 @@ function onSubmit() {
 
 <template>
   <ToolLayout v-model:query="query" @submit:query="onSubmit">
-
     <div>
-      <div v-for="tool in filtered" :key="tool.id" @click="router.push(`/${tool.id}`)"
-        class="px-3 py-3 flex items-start gap-3 hover:bg-white/5 rounded cursor-pointer">
+      <div
+        v-for="tool in filtered"
+        :key="tool.id"
+        @click="router.push(`/${tool.id}`)"
+        class="px-3 py-3 flex items-start gap-3 hover:bg-white/5 rounded cursor-pointer"
+      >
         <component :is="tool.icon" class="size-6 text-gray-300" />
 
         <div>
@@ -58,10 +59,7 @@ function onSubmit() {
         </div>
       </div>
 
-      <div v-if="filtered.length === 0" class="text-center text-gray-500 py-6">
-        No tool found
-      </div>
+      <div v-if="filtered.length === 0" class="text-center text-gray-500 py-6">No tool found</div>
     </div>
-
   </ToolLayout>
 </template>

@@ -6,7 +6,6 @@ import Components from "unplugin-vue-components/vite";
 import IconsResolver from "unplugin-icons/resolver";
 import { FileSystemIconLoader } from "unplugin-icons/loaders";
 
-// @ts-expect-error process is a nodejs global
 const host = process.env.TAURI_DEV_HOST;
 
 export default defineConfig({
@@ -15,22 +14,26 @@ export default defineConfig({
     ignorePatterns: ["dist/**", "node_modules/**", "temp/**"],
     options: { typeAware: true, typeCheck: true },
   },
-  plugins: [vue(), tailwindcss(), Icons({
-    customCollections: {
-      app: FileSystemIconLoader("./src/assets/icons", (svg) =>
-        svg.replace(/^<svg /, '<svg fill="currentColor" ')
-      ),
-    },
-  }),
+  plugins: [
+    vue(),
+    tailwindcss(),
+    Icons({
+      customCollections: {
+        app: FileSystemIconLoader("./src/assets/icons", (svg) =>
+          svg.replace(/^<svg /, '<svg fill="currentColor" '),
+        ),
+      },
+    }),
 
-  Components({
-    resolvers: [
-      IconsResolver({
-        prefix: "Icon", // 👈 this gives <IconOverlay />
-        customCollections: ["app"],
-      }),
-    ],
-  }),],
+    Components({
+      resolvers: [
+        IconsResolver({
+          prefix: "Icon", // 👈 this gives <IconOverlay />
+          customCollections: ["app"],
+        }),
+      ],
+    }),
+  ],
   // Vite options tailored for Tauri development and only applied in `tauri dev` or `tauri build`
 
   // 1. prevent Vite from obscuring rust errors
@@ -42,10 +45,10 @@ export default defineConfig({
     host: host || false,
     hmr: host
       ? {
-        protocol: "ws",
-        host,
-        port: 3000,
-      }
+          protocol: "ws",
+          host,
+          port: 3000,
+        }
       : undefined,
     watch: {
       // 3. tell Vite to ignore watching `src-tauri`
