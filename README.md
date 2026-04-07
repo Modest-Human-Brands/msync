@@ -61,19 +61,19 @@ Import:
 **ESM** (Node.js, Bun)
 
 ```js
-import { tools } from '@shba007/rcp-tools'
+import { tools } from "@shba007/rcp-tools";
 ```
 
 **CommonJS** (Legacy Node.js)
 
 ```js
-const { tools } = require('@shba007/rcp-tools')
+const { tools } = require("@shba007/rcp-tools");
 ```
 
 **CDN** (Deno, Bun and Browsers)
 
 ```js
-import { tools } from 'https://esm.sh/@shba007/rcp-tools'
+import { tools } from "https://esm.sh/@shba007/rcp-tools";
 ```
 
 ## Development
