@@ -1,0 +1,35 @@
+# Code Editor files
+.vs
+.vscode
+
+# Git/Github
+.git
+.github
+
+# Vue dev/build outputs
+dist
+
+# Node dependencies
+node_modules
+
+# Logs
+logs
+*.log
+
+# Test
+coverage
+
+# Misc
+.DS_Store
+.fleet
+.idea
+
+# Env files
+.env*
+
+# Tauri files
+src-tauri
+
+# Docker files
+.dockerignore
+Dockerfile
