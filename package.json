@@ -1,7 +1,6 @@
 {
   "name": "msync",
   "version": "0.0.0",
-  "private": true,
   "description": "A background media service that streams and mirrors assets between MMedia and MDrive, with automated folder-based reorganization and bulk watermark/logo stamping at scale",
   "license": "MIT",
   "author": "Shirsendu Bairagi <shirsendu2001@gmail.com>",
@@ -10,6 +9,13 @@
     "url": "git+https://github.com/Modest-Human-Brands/msync.git"
   },
   "type": "module",
+  "private": true,
+  "engines": {
+    "node": "^22.11.0 || ^24.14.0",
+    "bun": "^1.2.9",
+    "pnpm": "^9.15.0 || ^10.2.0"
+  },
+  "packageManager": "bun@1.3.11",
   "scripts": {
     "dev": "vp dev --port 3000",
     "detect": "gitleaks git --verbose",
@@ -52,11 +58,5 @@
   "overrides": {
     "vite": "npm:@voidzero-dev/vite-plus-core@latest",
     "vitest": "npm:@voidzero-dev/vite-plus-test@latest"
-  },
-  "engines": {
-    "bun": "^1.2.9",
-    "node": "^20.15.0 || ^22.11.0",
-    "pnpm": "^9.15.0 || ^10.2.0"
-  },
-  "packageManager": "bun@1.3.11"
+  }
 }
