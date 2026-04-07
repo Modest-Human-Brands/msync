@@ -25,10 +25,11 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: 🛠️ Setup Bun
-        uses: oven-sh/setup-bun@v2
+      - name: 🛠️ Setup Vite-Plus
+        uses: voidzero-dev/setup-vp@v1
         with:
-          bun-version: latest
+          node-version: "lts"
+          cache: true
 
       - name: 📦 Install Dependencies
         run: bun install --frozen-lockfile
