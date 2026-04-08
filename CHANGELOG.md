@@ -1,5 +1,21 @@
 # Changelog
 
+## v0.0.2
+
+
+### 💅 Refactors
+
+- Remove useWatermarkProgress composable and integrate progress handling directly in overlay.vue ([6abbe61](https://github.com/Modest-Human-Brands/msync/commit/6abbe61))
+
+### 🏡 Chore
+
+- Apply code fixes [skip ci] ([af44d99](https://github.com/Modest-Human-Brands/msync/commit/af44d99))
+
+### ❤️ Contributors
+
+- Shba007 ([@shba007](https://github.com/shba007))
+- Shirsendu Bairagi ([@shba007](https://github.com/shba007))
+
 ## v0.0.1
 
 ### 🚀 Enhancements
