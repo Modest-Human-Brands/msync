@@ -65,14 +65,19 @@ const now = ref(Date.now());
 let progressUnlisten: UnlistenFn | null = null;
 let completeUnlisten: UnlistenFn | null = null;
 
-const { pause, resume } = useIntervalFn(() => {
-  now.value = Date.now();
-}, 200, { immediate: false });
+const { pause, resume } = useIntervalFn(
+  () => {
+    now.value = Date.now();
+  },
+  200,
+  { immediate: false },
+);
 
 const selectedMedia = computed(() => mediaFiles.value[selectedIndex.value]);
 const hasSelection = computed(() => mediaFiles.value.length > 0);
-const isValid = computed(() =>
-  srcDir.value.trim() !== "" && destDir.value.trim() !== "" && watermarkPath.value.trim() !== ""
+const isValid = computed(
+  () =>
+    srcDir.value.trim() !== "" && destDir.value.trim() !== "" && watermarkPath.value.trim() !== "",
 );
 const pct = computed(() => {
   const total = processing.value.total || 0;
@@ -86,7 +91,9 @@ const elapsedLabel = computed(() => {
     ? `${elapsedSeconds.toFixed(1)}s`
     : `${Math.floor(elapsedSeconds / 60)}m ${Math.floor(elapsedSeconds % 60)}s`;
 });
-const watermarkSrc = computed(() => (watermarkPath.value ? convertFileSrc(watermarkPath.value) : ""));
+const watermarkSrc = computed(() =>
+  watermarkPath.value ? convertFileSrc(watermarkPath.value) : "",
+);
 
 const watermarkStyle = computed(() => {
   const base: Record<string, string> = {
@@ -142,17 +149,14 @@ function formatMs(ms: number) {
 }
 
 function isImageFile(item?: Pick<MediaFile, "type" | "name">) {
-  return !!item && (
-    item.type.startsWith("image/") ||
-    /\.(png|jpe?g|webp|gif|bmp|svg|avif)$/i.test(item.name)
+  return (
+    !!item &&
+    (item.type.startsWith("image/") || /\.(png|jpe?g|webp|gif|bmp|svg|avif)$/i.test(item.name))
   );
 }
 
 function isVideoFile(item?: Pick<MediaFile, "type" | "name">) {
-  return !!item && (
-    item.type.startsWith("video/") ||
-    /\.(mp4|mov|avi|mkv|webm)$/i.test(item.name)
-  );
+  return !!item && (item.type.startsWith("video/") || /\.(mp4|mov|avi|mkv|webm)$/i.test(item.name));
 }
 
 function isMediaFile(item?: Pick<MediaFile, "type" | "name">) {
@@ -169,23 +173,20 @@ async function stopListening() {
 async function startListening() {
   await stopListening();
 
-  progressUnlisten = await listen<WatermarkProgressEvent>(
-    "watermark-progress",
-    ({ payload }) => {
-      requestAnimationFrame(() => {
-        processing.value = {
-          ...processing.value,
-          total: payload.total,
-          processed: payload.current,
-          currentFile: payload.path,
-          errors:
-            payload.status === "error" && payload.error
-              ? [...processing.value.errors, `${payload.path}: ${payload.error}`]
-              : processing.value.errors,
-        };
-      });
-    }
-  );
+  progressUnlisten = await listen<WatermarkProgressEvent>("watermark-progress", ({ payload }) => {
+    requestAnimationFrame(() => {
+      processing.value = {
+        ...processing.value,
+        total: payload.total,
+        processed: payload.current,
+        currentFile: payload.path,
+        errors:
+          payload.status === "error" && payload.error
+            ? [...processing.value.errors, `${payload.path}: ${payload.error}`]
+            : processing.value.errors,
+      };
+    });
+  });
 
   completeUnlisten = await listen<BulkWatermarkReport>("watermark-complete", ({ payload }) => {
     result.value = {
@@ -200,10 +201,12 @@ async function loadMedia(folder: string) {
   loadingMedia.value = true;
   try {
     const files = await listFilesRecursively(folder);
-    mediaFiles.value = files.map((file) => ({
-      ...file,
-      url: convertFileSrc(file.path),
-    })).filter(f => isMediaFile(f));
+    mediaFiles.value = files
+      .map((file) => ({
+        ...file,
+        url: convertFileSrc(file.path),
+      }))
+      .filter((f) => isMediaFile(f));
     selectedIndex.value = 0;
   } catch (error) {
     console.error("Failed to list media files:", error);
@@ -227,9 +230,9 @@ async function onBrowse(type: "input" | "output" | "watermark") {
   const selected = await open(
     type === "watermark"
       ? {
-        multiple: false,
-        filters: [{ name: "Images", extensions: ["png", "jpg", "jpeg", "webp", "svg", "avif"] }],
-      }
+          multiple: false,
+          filters: [{ name: "Images", extensions: ["png", "jpg", "jpeg", "webp", "svg", "avif"] }],
+        }
       : { multiple: false, directory: true },
   );
 
@@ -270,8 +273,7 @@ async function run() {
   const startedAt = Date.now();
 
   try {
-    const mediaPaths = mediaFiles.value
-      .map(f => f.path);
+    const mediaPaths = mediaFiles.value.map((f) => f.path);
 
     const report = await invoke<BulkWatermarkReport>("add_watermarks", {
       mediaPaths,
@@ -332,21 +334,25 @@ onUnmounted(() => {
   pause();
 });
 
-const query = ref('')
+const query = ref("");
 </script>
 
 <template>
   <!-- v-model:query="query" @submit:query="onSubmit" @action="handleAction" -->
   <ToolLayout v-model:query="query">
-    <div v-if="step === 'configure' && !hasSelection"
-      class="h-full flex flex-col items-center justify-center text-center text-gray-400" @dragover.prevent>
+    <div
+      v-if="step === 'configure' && !hasSelection"
+      class="h-full flex flex-col items-center justify-center text-center text-gray-400"
+      @dragover.prevent
+    >
       <div class="flex flex-col items-center gap-3">
         <IconDownscale class="size-10 opacity-60" />
         <div class="text-sm font-medium">Choose a source folder to preview all media</div>
         <div class="text-xs text-gray-500">Press Enter or click browse to load images</div>
         <button
           class="mt-2 px-4 py-2 rounded-lg bg-white/8 hover:bg-white/12 border border-white/10 text-xs text-white/80 transition"
-          @click="onBrowse('input')">
+          @click="onBrowse('input')"
+        >
           Browse folder
         </button>
       </div>
@@ -357,31 +363,42 @@ const query = ref('')
         <div class="mb-3 flex items-center justify-between gap-2">
           <div class="min-w-0">
             <div class="text-2xs uppercase tracking-widest text-gray-500">Source media</div>
-            <div class="text-xs text-gray-400 truncate">{{ srcDir || 'No folder selected' }}</div>
+            <div class="text-xs text-gray-400 truncate">{{ srcDir || "No folder selected" }}</div>
           </div>
           <button
             class="shrink-0 px-2.5 py-1.5 rounded-md bg-white/8 hover:bg-white/12 border border-white/10 text-2xs text-gray-300 hover:text-white transition"
-            @click="onBrowse('input')">
+            @click="onBrowse('input')"
+          >
             Browse
           </button>
         </div>
 
-        <div v-if="loadingMedia"
-          class="h-80 rounded-xl bg-white/5 border border-white/8 flex items-center justify-center text-xs text-gray-500">
+        <div
+          v-if="loadingMedia"
+          class="h-80 rounded-xl bg-white/5 border border-white/8 flex items-center justify-center text-xs text-gray-500"
+        >
           Loading media…
         </div>
 
         <div v-else class="grid grid-cols-3 gap-2">
-          <div v-for="(item, i) in mediaFiles" :key="item.path"
+          <div
+            v-for="(item, i) in mediaFiles"
+            :key="item.path"
             class="relative group cursor-pointer rounded-md overflow-hidden bg-white/5 border border-white/8"
-            :class="{ 'ring-2 ring-orange-500/60': i === selectedIndex }" @click="selectedIndex = i">
+            :class="{ 'ring-2 ring-orange-500/60': i === selectedIndex }"
+            @click="selectedIndex = i"
+          >
             <img v-if="isMediaFile(item)" :src="item.url" class="w-full h-24 object-cover" />
-            <div v-else class="w-full h-24 flex items-center justify-center text-2xs text-gray-500 bg-white/5">
-              {{ item.type || 'FILE' }}
+            <div
+              v-else
+              class="w-full h-24 flex items-center justify-center text-2xs text-gray-500 bg-white/5"
+            >
+              {{ item.type || "FILE" }}
             </div>
 
             <div
-              class="absolute inset-0 bg-black/55 opacity-0 group-hover:opacity-100 transition flex flex-col justify-end p-2">
+              class="absolute inset-0 bg-black/55 opacity-0 group-hover:opacity-100 transition flex flex-col justify-end p-2"
+            >
               <span class="text-2xs text-white truncate">{{ item.name }}</span>
               <span class="text-[9px] text-gray-300 truncate">{{ formatSize(item.size) }} KB</span>
             </div>
@@ -391,17 +408,27 @@ const query = ref('')
 
       <div class="flex-1 min-w-0 flex flex-col gap-4">
         <div
-          class="bg-white/5 rounded-xl border border-white/8 min-h-80 flex items-center justify-center overflow-hidden relative">
+          class="bg-white/5 rounded-xl border border-white/8 min-h-80 flex items-center justify-center overflow-hidden relative"
+        >
           <template v-if="selectedMedia && isMediaFile(selectedMedia)">
-            <img :src="selectedMedia.url" class="max-h-full max-w-full object-contain" alt="Selected media preview" />
-            <img v-if="watermarkSrc" :src="watermarkSrc" :style="watermarkStyle" class="object-contain"
-              alt="Watermark preview" />
+            <img
+              :src="selectedMedia.url"
+              class="max-h-full max-w-full object-contain"
+              alt="Selected media preview"
+            />
+            <img
+              v-if="watermarkSrc"
+              :src="watermarkSrc"
+              :style="watermarkStyle"
+              class="object-contain"
+              alt="Watermark preview"
+            />
           </template>
           <template v-else>
             <div class="text-center text-gray-500">
               <div class="text-sm">No preview available</div>
               <div class="text-xs mt-1">
-                {{ selectedMedia?.name || 'Select a file on the left' }}
+                {{ selectedMedia?.name || "Select a file on the left" }}
               </div>
             </div>
           </template>
@@ -411,19 +438,21 @@ const query = ref('')
           <div class="bg-white/5 rounded-xl border border-white/8 p-4 space-y-3 text-sm min-w-0">
             <div class="flex items-center gap-2">
               <span class="text-gray-400 text-xs">📄</span>
-              <span class="text-white truncate">{{ selectedMedia?.name || '—' }}</span>
+              <span class="text-white truncate">{{ selectedMedia?.name || "—" }}</span>
             </div>
             <div class="flex items-center gap-2">
               <span class="text-gray-400 text-xs">🧩</span>
-              <span class="text-gray-300 truncate">{{ selectedMedia?.type || 'unknown' }}</span>
+              <span class="text-gray-300 truncate">{{ selectedMedia?.type || "unknown" }}</span>
             </div>
             <div class="flex items-center gap-2">
               <span class="text-gray-400 text-xs">📦</span>
-              <span class="text-gray-300">{{ selectedMedia ? `${formatSize(selectedMedia.size)} KB` : '—' }}</span>
+              <span class="text-gray-300">{{
+                selectedMedia ? `${formatSize(selectedMedia.size)} KB` : "—"
+              }}</span>
             </div>
             <div class="flex items-center gap-2">
               <span class="text-gray-400 text-xs">📁</span>
-              <span class="text-gray-300 truncate">{{ selectedMedia?.path || '—' }}</span>
+              <span class="text-gray-300 truncate">{{ selectedMedia?.path || "—" }}</span>
             </div>
           </div>
 
@@ -433,12 +462,15 @@ const query = ref('')
               <div class="flex gap-1.5">
                 <div
                   class="flex-1 min-w-0 bg-white/5 border border-white/8 rounded-md px-2.5 py-1.5 text-xs text-white/80 truncate cursor-pointer hover:bg-white/8 transition"
-                  :title="watermarkPath || 'Click to browse'" @click="onBrowse('watermark')">
-                  {{ watermarkPath || 'Click to browse…' }}
+                  :title="watermarkPath || 'Click to browse'"
+                  @click="onBrowse('watermark')"
+                >
+                  {{ watermarkPath || "Click to browse…" }}
                 </div>
                 <button
                   class="shrink-0 px-2.5 py-1.5 bg-white/8 hover:bg-white/12 border border-white/8 rounded-md text-2xs text-gray-400 hover:text-white transition cursor-pointer"
-                  @click="onBrowse('watermark')">
+                  @click="onBrowse('watermark')"
+                >
                   Browse
                 </button>
               </div>
@@ -448,14 +480,21 @@ const query = ref('')
               <div class="flex flex-col gap-1.5 shrink-0">
                 <span class="text-2xs text-gray-500 uppercase tracking-widest">Position</span>
                 <div
-                  class="w-18 h-18 grid grid-cols-3 grid-rows-3 gap-0.5 p-1.5 bg-white/5 border border-white/8 rounded-lg">
-                  <button v-for="p in POSITIONS" :key="p.value" :style="{ gridColumn: p.col, gridRow: p.row }"
-                    :title="p.value" :class="[
+                  class="w-18 h-18 grid grid-cols-3 grid-rows-3 gap-0.5 p-1.5 bg-white/5 border border-white/8 rounded-lg"
+                >
+                  <button
+                    v-for="p in POSITIONS"
+                    :key="p.value"
+                    :style="{ gridColumn: p.col, gridRow: p.row }"
+                    :title="p.value"
+                    :class="[
                       'flex items-center justify-center rounded text-[9px] font-bold transition cursor-pointer select-none',
                       position === p.value
                         ? 'bg-orange-500 text-white'
                         : 'text-gray-600 hover:text-gray-300 hover:bg-white/10',
-                    ]" @click="position = p.value">
+                    ]"
+                    @click="position = p.value"
+                  >
                     {{ p.label }}
                   </button>
                 </div>
@@ -467,17 +506,31 @@ const query = ref('')
                     <span class="text-2xs text-gray-500 uppercase tracking-widest">Size</span>
                     <span class="text-2xs font-mono text-orange-400">{{ wmSize }}%</span>
                   </div>
-                  <input v-model.number="wmSize" type="range" min="1" max="100" step="1"
-                    class="accent-orange-500 w-full h-1 cursor-pointer" />
+                  <input
+                    v-model.number="wmSize"
+                    type="range"
+                    min="1"
+                    max="100"
+                    step="1"
+                    class="accent-orange-500 w-full h-1 cursor-pointer"
+                  />
                 </div>
 
                 <div class="flex flex-col gap-1">
                   <div class="flex items-center justify-between">
                     <span class="text-2xs text-gray-500 uppercase tracking-widest">Opacity</span>
-                    <span class="text-2xs font-mono text-orange-400">{{ wmOpacity.toFixed(2) }}</span>
+                    <span class="text-2xs font-mono text-orange-400">{{
+                      wmOpacity.toFixed(2)
+                    }}</span>
                   </div>
-                  <input v-model.number="wmOpacity" type="range" min="0.05" max="1" step="0.05"
-                    class="accent-orange-500 w-full h-1 cursor-pointer" />
+                  <input
+                    v-model.number="wmOpacity"
+                    type="range"
+                    min="0.05"
+                    max="1"
+                    step="0.05"
+                    class="accent-orange-500 w-full h-1 cursor-pointer"
+                  />
                 </div>
               </div>
             </div>
@@ -487,23 +540,30 @@ const query = ref('')
               <div class="flex gap-1.5">
                 <div
                   class="flex-1 min-w-0 bg-white/5 border border-white/8 rounded-md px-2.5 py-1.5 text-xs text-white/80 truncate cursor-pointer hover:bg-white/8 transition"
-                  :title="destDir || 'Auto-filled when source is picked'" @click="onBrowse('output')">
-                  {{ destDir || 'Auto-filled when source is picked' }}
+                  :title="destDir || 'Auto-filled when source is picked'"
+                  @click="onBrowse('output')"
+                >
+                  {{ destDir || "Auto-filled when source is picked" }}
                 </div>
                 <button
                   class="shrink-0 px-2.5 py-1.5 bg-white/8 hover:bg-white/12 border border-white/8 rounded-md text-2xs text-gray-400 hover:text-white transition cursor-pointer"
-                  @click="onBrowse('output')">
+                  @click="onBrowse('output')"
+                >
                   Browse
                 </button>
               </div>
             </div>
 
-            <button :disabled="!isValid" :class="[
-              'mt-2 w-full py-2 rounded-lg text-sm font-medium transition',
-              isValid
-                ? 'bg-orange-500 hover:bg-orange-400 text-white cursor-pointer'
-                : 'bg-white/5 text-gray-600 cursor-not-allowed',
-            ]" @click="run">
+            <button
+              :disabled="!isValid"
+              :class="[
+                'mt-2 w-full py-2 rounded-lg text-sm font-medium transition',
+                isValid
+                  ? 'bg-orange-500 hover:bg-orange-400 text-white cursor-pointer'
+                  : 'bg-white/5 text-gray-600 cursor-not-allowed',
+              ]"
+              @click="run"
+            >
               Run watermark <kbd v-if="isValid" class="ml-1.5 text-2xs opacity-60">↩</kbd>
             </button>
           </div>
@@ -511,16 +571,37 @@ const query = ref('')
       </div>
     </div>
 
-    <div v-else-if="step === 'processing'" class="h-full flex flex-col items-center justify-center gap-5">
+    <div
+      v-else-if="step === 'processing'"
+      class="h-full flex flex-col items-center justify-center gap-5"
+    >
       <div class="relative w-[72px] h-[72px]">
         <svg class="w-full h-full -rotate-90" viewBox="0 0 72 72">
-          <circle cx="36" cy="36" r="30" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="5" />
-          <circle cx="36" cy="36" r="30" fill="none" stroke="#f97316" stroke-width="5" stroke-linecap="round"
-            :stroke-dasharray="`${2 * Math.PI * 30}`" :stroke-dashoffset="`${2 * Math.PI * 30 * (1 - pct / 100)}`"
-            style="transition: stroke-dashoffset 0.25s ease" />
+          <circle
+            cx="36"
+            cy="36"
+            r="30"
+            fill="none"
+            stroke="rgba(255,255,255,0.08)"
+            stroke-width="5"
+          />
+          <circle
+            cx="36"
+            cy="36"
+            r="30"
+            fill="none"
+            stroke="#f97316"
+            stroke-width="5"
+            stroke-linecap="round"
+            :stroke-dasharray="`${2 * Math.PI * 30}`"
+            :stroke-dashoffset="`${2 * Math.PI * 30 * (1 - pct / 100)}`"
+            style="transition: stroke-dashoffset 0.25s ease"
+          />
         </svg>
-        <span class="absolute inset-0 flex items-center justify-center text-xs font-mono font-semibold">{{ pct
-        }}%</span>
+        <span
+          class="absolute inset-0 flex items-center justify-center text-xs font-mono font-semibold"
+          >{{ pct }}%</span
+        >
       </div>
 
       <div class="text-center">
@@ -531,30 +612,40 @@ const query = ref('')
       </div>
 
       <div class="w-56 h-1 bg-white/8 rounded-full overflow-hidden">
-        <div class="h-full bg-orange-500 rounded-full transition-all duration-300 ease-out"
-          :style="{ width: `${pct}%` }" />
+        <div
+          class="h-full bg-orange-500 rounded-full transition-all duration-300 ease-out"
+          :style="{ width: `${pct}%` }"
+        />
       </div>
 
       <div class="flex items-center justify-between w-56 text-2xs text-gray-500">
-        <span class="truncate max-w-[75%]" :title="processing.currentFile">{{ processing.currentFile || '—' }}</span>
+        <span class="truncate max-w-[75%]" :title="processing.currentFile">{{
+          processing.currentFile || "—"
+        }}</span>
         <span class="font-mono shrink-0 ml-2">{{ elapsedLabel }}</span>
       </div>
 
-      <div v-if="processing.errors.length"
-        class="px-3 py-1 rounded-full bg-red-500/10 border border-red-500/20 text-2xs text-red-400">
-        {{ processing.errors.length }} error{{ processing.errors.length > 1 ? 's' : '' }}
+      <div
+        v-if="processing.errors.length"
+        class="px-3 py-1 rounded-full bg-red-500/10 border border-red-500/20 text-2xs text-red-400"
+      >
+        {{ processing.errors.length }} error{{ processing.errors.length > 1 ? "s" : "" }}
       </div>
     </div>
 
-    <div v-else-if="step === 'done' && result" class="h-full flex flex-col items-center justify-center gap-5">
-      <div class="text-4xl">{{ result.errors === 0 ? '✅' : '⚠️' }}</div>
+    <div
+      v-else-if="step === 'done' && result"
+      class="h-full flex flex-col items-center justify-center gap-5"
+    >
+      <div class="text-4xl">{{ result.errors === 0 ? "✅" : "⚠️" }}</div>
 
       <div class="text-center">
         <div class="text-sm font-semibold text-white">
-          {{ result.errors === 0 ? 'Done!' : 'Completed with errors' }}
+          {{ result.errors === 0 ? "Done!" : "Completed with errors" }}
         </div>
         <div class="text-xs text-gray-400 mt-1">
-          {{ result.total }} file{{ result.total !== 1 ? 's' : '' }} · {{ formatMs(result.elapsedMs) }}
+          {{ result.total }} file{{ result.total !== 1 ? "s" : "" }} ·
+          {{ formatMs(result.elapsedMs) }}
         </div>
       </div>
 
