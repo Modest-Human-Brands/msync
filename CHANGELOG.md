@@ -1,8 +1,6 @@
 # Changelog
 
-
 ## v0.0.1
-
 
 ### 🚀 Enhancements
 
@@ -36,7 +34,6 @@
 
 ## v0.0.1
 
-
 ### 🚀 Enhancements
 
 - Enhance CLI to support video watermarking and reorganizing files ([e2736ef](https://github.com/Modest-Human-Brands/msync/commit/e2736ef))
@@ -66,4 +63,3 @@
 ### ❤️ Contributors
 
 - Shirsendu Bairagi ([@shba007](https://github.com/shba007))
-
