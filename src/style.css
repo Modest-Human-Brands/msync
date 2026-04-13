@@ -1,9 +1,9 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @theme {
   /* Fonts */
-  --font-main: 'Exo 2', sans-serif;
-  --font-sub: 'Exo 2', sans-serif;
+  --font-main: "Exo 2", sans-serif;
+  --font-sub: "Exo 2", sans-serif;
 
   /* Font Sizes */
   --text-3xs: 0.5rem;

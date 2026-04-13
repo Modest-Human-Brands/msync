@@ -29,10 +29,7 @@
       "csp": null,
       "assetProtocol": {
         "enable": true,
-        "scope": [
-          "$HOME/**",
-          "D:\\**"
-        ]
+        "scope": ["$HOME/**", "D:\\**"]
       }
     }
   },
@@ -46,9 +43,6 @@
       "icons/icon.icns",
       "icons/icon.ico"
     ],
-    "externalBin": [
-      "bin/ffmpeg",
-      "bin/ffprobe"
-    ]
+    "externalBin": ["bin/ffmpeg", "bin/ffprobe"]
   }
 }
