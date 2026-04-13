@@ -5,7 +5,7 @@
   "identifier": "com.modesthumanbrands.msync",
   "build": {
     "frontendDist": "../dist",
-    "devUrl": "http://localhost:3000",
+    "devUrl": "http://localhost:3002",
     "beforeDevCommand": "bun run dev",
     "beforeBuildCommand": "bun run build"
   },
@@ -29,7 +29,10 @@
       "csp": null,
       "assetProtocol": {
         "enable": true,
-        "scope": ["$HOME/**", "D:\\**"]
+        "scope": [
+          "$HOME/**",
+          "D:\\**"
+        ]
       }
     }
   },
@@ -42,6 +45,10 @@
       "icons/128x128@2x.png",
       "icons/icon.icns",
       "icons/icon.ico"
+    ],
+    "externalBin": [
+      "bin/ffmpeg",
+      "bin/ffprobe"
     ]
   }
 }

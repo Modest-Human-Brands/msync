@@ -24,3 +24,9 @@ dist-ssr
 *.sw?
 
 temp
+
+# Env files
+.env
+.env.*
+!.env.example
+!.env.native

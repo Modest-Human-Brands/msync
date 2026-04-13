@@ -4,8 +4,8 @@ import { useRouter } from "vue-router";
 import ToolLayout from "../layouts/ToolLayout.vue";
 
 import IconFolder from "~icons/app/folder";
+import IconLayers from "~icons/app/layers";
 import IconDownscale from "~icons/app/downscale";
-import IconSync from "~icons/app/downscale";
 
 const router = useRouter();
 const query = ref("");
@@ -21,13 +21,13 @@ const tools = [
     id: "overlay",
     title: "Add Overlay / Watermark",
     description: "Apply watermark overlay to selected assets",
-    icon: IconDownscale,
+    icon: IconLayers,
   },
   {
     id: "sync",
     title: "Sync media",
     description: "Sync files across devices/cloud",
-    icon: IconSync,
+    icon: IconDownscale,
   },
 ];
 
@@ -43,14 +43,10 @@ function onSubmit() {
 </script>
 
 <template>
-  <ToolLayout v-model:query="query" @submit:query="onSubmit">
+  <ToolLayout :is-search-bar="true" v-model:query="query" @submit:query="onSubmit">
     <div>
-      <div
-        v-for="tool in filtered"
-        :key="tool.id"
-        @click="router.push(`/${tool.id}`)"
-        class="px-3 py-3 flex items-start gap-3 hover:bg-white/5 rounded cursor-pointer"
-      >
+      <div v-for="tool in filtered" :key="tool.id" @click="router.push(`/${tool.id}`)"
+        class="px-3 py-3 flex items-start gap-3 hover:bg-white/5 rounded cursor-pointer">
         <component :is="tool.icon" class="size-6 text-gray-300" />
 
         <div>
