@@ -1,6 +1,6 @@
 {
   "name": "msync",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "private": true,
   "description": "A background media service that streams and mirrors assets between MMedia and MDrive, with automated folder-based reorganization and bulk watermark/logo stamping at scale",
   "license": "MIT",
