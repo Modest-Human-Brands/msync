@@ -2,15 +2,14 @@
 
 ## v0.1.0
 
-
 ### 🏡 Chore
 
-- ⚠️  Update dependencies for @tauri-apps/plugin-shell and @vitejs/plugin-vue ([3a989f6](https://github.com/Modest-Human-Brands/msync/commit/3a989f6))
+- ⚠️ Update dependencies for @tauri-apps/plugin-shell and @vitejs/plugin-vue ([3a989f6](https://github.com/Modest-Human-Brands/msync/commit/3a989f6))
 - Apply code fixes [skip ci] ([d3111b4](https://github.com/Modest-Human-Brands/msync/commit/d3111b4))
 
 #### ⚠️ Breaking Changes
 
-- ⚠️  Update dependencies for @tauri-apps/plugin-shell and @vitejs/plugin-vue ([3a989f6](https://github.com/Modest-Human-Brands/msync/commit/3a989f6))
+- ⚠️ Update dependencies for @tauri-apps/plugin-shell and @vitejs/plugin-vue ([3a989f6](https://github.com/Modest-Human-Brands/msync/commit/3a989f6))
 
 ### ❤️ Contributors
 
