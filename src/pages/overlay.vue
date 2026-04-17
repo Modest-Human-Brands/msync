@@ -294,31 +294,7 @@ onUnmounted(() => {
   <ToolLayout :prevent-escape="processStatus === 'processing'" @action="handleAction">
     <template #header>
       <div class="flex items-center gap-2 min-w-0">
-        <button
-          class="text-white/40 hover:text-white transition-colors shrink-0"
-          @click="router.back()"
-        >
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <polyline points="15 18 9 12 15 6" />
-          </svg>
-        </button>
-        <span class="text-white/30 shrink-0">/</span>
-        <span class="text-white/50 shrink-0 uppercase text-xs tracking-wider">Add Overlay</span>
-        <span
-          v-if="mediaItems.length"
-          class="ml-1 px-2 py-0.5 rounded bg-primary-500/20 text-primary-500 text-xs font-medium shrink-0"
-        >
-          {{ mediaItems.length }} assets
-        </span>
+        <span class="text-white/50 shrink-0 uppercase text-xs tracking-wider">Add Overlay / Watermark</span>
       </div>
     </template>
 
@@ -327,69 +303,34 @@ onUnmounted(() => {
     <section class="flex h-full overflow-hidden">
       <div class="flex-1 flex flex-col min-w-0 overflow-hidden bg-black">
         <div class="flex-1 relative overflow-hidden flex items-center justify-center">
-          <div
-            v-if="currentItem?.thumbnailUrl"
-            class="relative overflow-hidden"
-            :style="{ aspectRatio: mediaAspectRatio, maxWidth: '100%', maxHeight: '100%' }"
-          >
-            <video
-              v-if="currentItem.type === 'video'"
-              :src="currentItem.thumbnailUrl"
-              class="w-full h-full object-contain select-none"
-              controls
-              autoplay
-              loop
-              playsinline
-            ></video>
+          <div v-if="currentItem?.thumbnailUrl" class="relative overflow-hidden"
+            :style="{ aspectRatio: mediaAspectRatio, maxWidth: '100%', maxHeight: '100%' }">
+            <video v-if="currentItem.type === 'video'" :src="currentItem.thumbnailUrl"
+              class="w-full h-full object-contain select-none" controls autoplay loop playsinline></video>
 
-            <img
-              v-else
-              :src="currentItem.thumbnailUrl"
-              :alt="currentItem.title"
-              class="w-full h-full object-contain select-none"
-              draggable="false"
-            />
-            <img
-              v-if="watermarkSrc"
-              :src="watermarkSrc"
-              :style="watermarkPreviewStyle"
-              class="select-none"
-              draggable="false"
-            />
+            <img v-else :src="currentItem.thumbnailUrl" :alt="currentItem.title"
+              class="w-full h-full object-contain select-none" draggable="false" />
+            <img v-if="watermarkSrc" :src="watermarkSrc" :style="watermarkPreviewStyle" class="select-none"
+              draggable="false" />
           </div>
 
           <div v-else class="flex flex-col items-center justify-center gap-3 text-white/20">
-            <svg
-              width="40"
-              height="40"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"
+              stroke-linecap="round" stroke-linejoin="round">
               <rect x="3" y="3" width="18" height="18" rx="2" />
               <circle cx="8.5" cy="8.5" r="1.5" />
               <polyline points="21 15 16 10 5 21" />
             </svg>
             <span class="text-sm">No assets loaded</span>
-            <button
-              class="px-4 py-2 rounded bg-white/10 hover:bg-white/20 text-white text-xs transition-colors"
-              @click="browseSrc"
-            >
+            <button class="px-4 py-2 rounded bg-white/10 hover:bg-white/20 text-white text-xs transition-colors"
+              @click="browseSrc">
               Browse folder
             </button>
           </div>
 
-          <div
-            v-if="currentItem"
-            class="absolute top-3 left-3 flex items-center gap-2 pointer-events-none"
-          >
-            <span
-              v-if="currentItem.metadata?.resolution"
-              class="bg-success-600/20 text-success-600 text-2xs font-mono px-2 py-0.5 rounded border border-success-600/20"
-            >
+          <div v-if="currentItem" class="absolute top-3 left-3 flex items-center gap-2 pointer-events-none">
+            <span v-if="currentItem.metadata?.resolution"
+              class="bg-success-600/20 text-success-600 text-2xs font-mono px-2 py-0.5 rounded border border-success-600/20">
               {{ currentItem.metadata.resolution }}
             </span>
             <span class="text-xs text-white/50">
@@ -397,89 +338,50 @@ onUnmounted(() => {
             </span>
           </div>
 
-          <button
-            v-if="currentIndex > 0"
+          <button v-if="currentIndex > 0"
             class="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center rounded-full bg-black/50 hover:bg-black/80 text-white/70 hover:text-white transition-colors"
-            @click="currentIndex--"
-          >
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
+            @click="currentIndex--">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
               <polyline points="15 18 9 12 15 6" />
             </svg>
           </button>
-          <button
-            v-if="currentIndex < mediaItems.length - 1"
+          <button v-if="currentIndex < mediaItems.length - 1"
             class="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center rounded-full bg-black/50 hover:bg-black/80 text-white/70 hover:text-white transition-colors"
-            @click="currentIndex++"
-          >
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
+            @click="currentIndex++">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
               <polyline points="9 18 15 12 9 6" />
             </svg>
           </button>
         </div>
 
-        <MediaFlimstrip
-          v-if="mediaItems.length"
-          :media-items="mediaItems as MediaItem[]"
-          :active-media-slug="currentItem?.slug ?? ''"
-          @update="
+        <MediaFlimstrip v-if="mediaItems.length" :media-items="mediaItems as MediaItem[]"
+          :active-media-slug="currentItem?.slug ?? ''" @update="
             (slug) => {
               currentIndex = mediaItems.findIndex((m) => m.slug === slug);
             }
-          "
-        />
+          " />
       </div>
 
-      <OverlaySidePanel
-        v-model:h-align="hAlign"
-        v-model:v-align="vAlign"
-        v-model:wm-scale="wmScale"
-        v-model:wm-opacity="wmOpacity"
-        v-model:height-locked="heightLocked"
-        v-model:wm-manual-height="wmManualHeight"
-        :canvas-width="canvasWidth"
-        :watermark-name="watermarkName"
-        :watermark-src="watermarkSrc"
-        :watermark-natural-size="watermarkNaturalSize"
-        :position-x="positionXPx"
-        :position-y="positionYPx"
-        :wm-width-px="wmWidthPx"
-        :wm-height-px="wmHeightPx"
-        @browse-watermark="browseWatermark"
-      />
+      <OverlaySidePanel v-model:h-align="hAlign" v-model:v-align="vAlign" v-model:wm-scale="wmScale"
+        v-model:wm-opacity="wmOpacity" v-model:height-locked="heightLocked" v-model:wm-manual-height="wmManualHeight"
+        :canvas-width="canvasWidth" :watermark-name="watermarkName" :watermark-src="watermarkSrc"
+        :watermark-natural-size="watermarkNaturalSize" :position-x="positionXPx" :position-y="positionYPx"
+        :wm-width-px="wmWidthPx" :wm-height-px="wmHeightPx" @browse-watermark="browseWatermark" />
     </section>
 
     <template #footer>
       <template v-if="stage === 'processing'">
         <div class="flex flex-col gap-1.5 w-full">
           <div class="flex items-center justify-between">
-            <span class="text-xs text-white/40 font-mono"
-              >{{ processing.processed }}&thinsp;/&thinsp;{{ processing.total }} files</span
-            >
+            <span class="text-xs text-white/40 font-mono">{{ processing.processed }}&thinsp;/&thinsp;{{ processing.total
+            }} files</span>
             <span class="text-xs text-white/40 font-mono">{{ pct }}% · {{ elapsedLabel }}</span>
           </div>
           <div class="w-full bg-white/10 rounded-full overflow-hidden" style="height: 3px">
-            <div
-              class="h-full bg-primary-500 rounded-full transition-all duration-300 ease-out"
-              :style="{ width: `${pct}%` }"
-            />
+            <div class="h-full bg-primary-500 rounded-full transition-all duration-300 ease-out"
+              :style="{ width: `${pct}%` }" />
           </div>
         </div>
       </template>
@@ -492,46 +394,36 @@ onUnmounted(() => {
         <div class="flex items-center gap-1.5">
           <button
             class="px-2.5 py-1 rounded bg-white/10 hover:bg-white/20 text-white/70 hover:text-white text-xs font-medium tracking-wider transition-colors"
-            @click="router.back()"
-          >
+            @click="router.back()">
             ESC
           </button>
           <button
             class="px-2.5 py-1 rounded bg-white/10 hover:bg-white/20 text-white/70 hover:text-white text-xs font-medium tracking-wider transition-colors"
-            @click="router.back()"
-          >
+            @click="router.back()">
             BACK
           </button>
 
-          <button
-            v-if="stage === 'awaiting-source'"
+          <button v-if="stage === 'awaiting-source'"
             class="px-3 py-1 rounded bg-white/10 hover:bg-white/20 text-white text-xs font-medium tracking-wider transition-colors"
-            @click="browseSrc"
-          >
+            @click="browseSrc">
             LOAD FOLDER →
           </button>
-          <button
-            v-else-if="stage === 'awaiting-watermark'"
+          <button v-else-if="stage === 'awaiting-watermark'"
             class="px-3 py-1 rounded bg-white/10 hover:bg-white/20 text-white text-xs font-medium tracking-wider transition-colors"
-            @click="browseWatermark"
-          >
+            @click="browseWatermark">
             LOAD WATERMARK →
           </button>
-          <button
-            v-else-if="stage === 'ready'"
+          <button v-else-if="stage === 'ready'"
             class="px-3 py-1 rounded bg-primary-500 hover:bg-primary-400 text-white text-xs font-semibold tracking-wider transition-colors flex items-center gap-1.5"
-            @click="run"
-          >
+            @click="run">
             <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
               <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
             </svg>
             ENTER RUN
           </button>
-          <button
-            v-else-if="stage === 'done'"
+          <button v-else-if="stage === 'done'"
             class="px-3 py-1 rounded bg-white/10 hover:bg-white/20 text-white text-xs font-medium tracking-wider transition-colors"
-            @click="processStatus = 'idle'"
-          >
+            @click="processStatus = 'idle'">
             RUN AGAIN
           </button>
         </div>

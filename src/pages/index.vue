@@ -6,11 +6,18 @@ import ToolLayout from "../layouts/ToolLayout.vue";
 import IconFolder from "~icons/app/folder";
 import IconLayers from "~icons/app/layers";
 import IconDownscale from "~icons/app/downscale";
+import IconBroadcast from "~icons/app/downscale";
 
 const router = useRouter();
 const query = ref("");
 
 const tools = [
+  {
+    id: "stream",
+    title: "Stream media",
+    description: "Preview USB video stream and broadcast to a remote via SRT",
+    icon: IconBroadcast,
+  },
   {
     id: "reorganize",
     title: "Reorganize Files",
@@ -43,14 +50,10 @@ function onSubmit() {
 </script>
 
 <template>
-  <ToolLayout :is-search-bar="true" v-model:query="query" @submit:query="onSubmit">
+  <ToolLayout v-model:query="query" @submit:query="onSubmit">
     <div>
-      <div
-        v-for="tool in filtered"
-        :key="tool.id"
-        @click="router.push(`/${tool.id}`)"
-        class="px-3 py-3 flex items-start gap-3 hover:bg-white/5 rounded cursor-pointer"
-      >
+      <div v-for="tool in filtered" :key="tool.id" @click="router.push(`/${tool.id}`)"
+        class="px-3 py-3 flex items-start gap-3 hover:bg-white/5 rounded cursor-pointer">
         <component :is="tool.icon" class="size-6 text-gray-300" />
 
         <div>
