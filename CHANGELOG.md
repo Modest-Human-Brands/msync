@@ -1,5 +1,25 @@
 # Changelog
 
+## v0.2.0
+
+
+### 🚀 Enhancements
+
+- ⚠️  Add streaming functionality and update pull request action ([2854d84](https://github.com/Modest-Human-Brands/msync/commit/2854d84))
+
+### 🏡 Chore
+
+- Apply code fixes [skip ci] ([ec5753f](https://github.com/Modest-Human-Brands/msync/commit/ec5753f))
+
+#### ⚠️ Breaking Changes
+
+- ⚠️  Add streaming functionality and update pull request action ([2854d84](https://github.com/Modest-Human-Brands/msync/commit/2854d84))
+
+### ❤️ Contributors
+
+- Shba007 ([@shba007](https://github.com/shba007))
+- Shirsendu Bairagi ([@shba007](https://github.com/shba007))
+
 ## v0.1.0
 
 ### 🏡 Chore
