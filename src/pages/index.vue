@@ -52,8 +52,12 @@ function onSubmit() {
 <template>
   <ToolLayout v-model:query="query" @submit:query="onSubmit">
     <div>
-      <div v-for="tool in filtered" :key="tool.id" @click="router.push(`/${tool.id}`)"
-        class="px-3 py-3 flex items-start gap-3 hover:bg-white/5 rounded cursor-pointer">
+      <div
+        v-for="tool in filtered"
+        :key="tool.id"
+        @click="router.push(`/${tool.id}`)"
+        class="px-3 py-3 flex items-start gap-3 hover:bg-white/5 rounded cursor-pointer"
+      >
         <component :is="tool.icon" class="size-6 text-gray-300" />
 
         <div>
