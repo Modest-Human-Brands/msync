@@ -1,5 +1,37 @@
 # Changelog
 
+## v0.3.0
+
+[compare changes](https://github.com/Modest-Human-Brands/msync/compare/v0.1.0...v0.3.0)
+
+### 🚀 Enhancements
+
+- ⚠️  Add streaming functionality and update pull request action ([2854d84](https://github.com/Modest-Human-Brands/msync/commit/2854d84))
+
+### 🏡 Chore
+
+- Update component declarations and package configurations ([c89709d](https://github.com/Modest-Human-Brands/msync/commit/c89709d))
+- Apply code fixes [skip ci] ([5cc4bef](https://github.com/Modest-Human-Brands/msync/commit/5cc4bef))
+- Apply code fixes [skip ci] ([ec5753f](https://github.com/Modest-Human-Brands/msync/commit/ec5753f))
+
+### 🎨 Styles
+
+- Add new logo assets and update PWA icons ([12b8aeb](https://github.com/Modest-Human-Brands/msync/commit/12b8aeb))
+
+### 🤖 CI
+
+- **release:** Update version ([c11a9b0](https://github.com/Modest-Human-Brands/msync/commit/c11a9b0))
+- **release:** Update version ([78a5a13](https://github.com/Modest-Human-Brands/msync/commit/78a5a13))
+
+#### ⚠️ Breaking Changes
+
+- ⚠️  Add streaming functionality and update pull request action ([2854d84](https://github.com/Modest-Human-Brands/msync/commit/2854d84))
+
+### ❤️ Contributors
+
+- Shirsendu Bairagi ([@shba007](https://github.com/shba007))
+- Shba007 ([@shba007](https://github.com/shba007))
+
 ## v0.2.0
 
 ### 🚀 Enhancements
