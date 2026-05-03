@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.3.1
+
+[compare changes](https://github.com/Modest-Human-Brands/msync/compare/v0.3.0...v0.3.1)
+
+### 🚀 Enhancements
+
+- Update README, enhance component definitions, and upgrade dependencies ([0099dee](https://github.com/Modest-Human-Brands/msync/commit/0099dee))
+
+### ❤️ Contributors
+
+- Shirsendu Bairagi ([@shba007](https://github.com/shba007))
+
 ## v0.3.0
 
 [compare changes](https://github.com/Modest-Human-Brands/msync/compare/v0.1.0...v0.3.0)
