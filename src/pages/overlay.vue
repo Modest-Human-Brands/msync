@@ -5,6 +5,7 @@ import { open } from "@tauri-apps/plugin-dialog";
 import { convertFileSrc, invoke } from "@tauri-apps/api/core";
 import { listen, type UnlistenFn } from "@tauri-apps/api/event";
 import { useRouter } from "vue-router";
+
 import ToolLayout from "../layouts/ToolLayout.vue";
 import OverlaySidePanel from "../components/Overlay/OverlaySidePanel.vue";
 import MediaFlimstrip from "../components/MediaFlimstrip.vue";
@@ -303,8 +304,8 @@ onUnmounted(() => {
     <img v-if="watermarkSrc" :src="watermarkSrc" class="hidden" @load="onWatermarkLoaded" />
 
     <section class="flex h-full overflow-hidden">
-      <div class="flex-1 flex flex-col min-w-0 overflow-hidden bg-black">
-        <div class="flex-1 relative overflow-hidden flex items-center justify-center">
+      <div class="grow flex flex-col min-w-0 overflow-hidden bg-black">
+        <div class="grow relative overflow-hidden flex items-center justify-center">
           <div
             v-if="currentItem?.thumbnailUrl"
             class="relative overflow-hidden"

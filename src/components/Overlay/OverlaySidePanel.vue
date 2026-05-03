@@ -182,7 +182,7 @@ const V_ALIGNS: { value: "top" | "middle" | "bottom"; rect: [number, number, num
               label="W"
               :model-value="wmWidthPx"
               :min="1"
-              class="flex-1"
+              class="grow"
               @update:model-value="onWidthInput"
             />
             <button
@@ -210,7 +210,7 @@ const V_ALIGNS: { value: "top" | "middle" | "bottom"; rect: [number, number, num
               :model-value="wmHeightPx"
               :readonly="heightLocked"
               :min="1"
-              class="flex-1"
+              class="grow"
               @update:model-value="wmManualHeight = $event"
             />
           </div>

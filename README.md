@@ -8,21 +8,13 @@
 
 > A desktop media client that streams and mirrors assets between MMedia and MDrive, with automated folder-based reorganization and bulk watermark/logo stamping at scale
 
-- 📦 SSR
-- 🖼️ OG Tags
-- 🚀 PWA
-- ✋ Push Notification
-- 🌙 Light/Dark Mode
-- 🐋 Containerized
-- 🪄 CI/CD (Github Action)
-- 🎭 Authentication (OAuth 2.0)
-- ⚡️ API Route Caching
-- 📐 Analytics
+- Watermark add
+- Streams Media
 
 ## License
 
-Published under the [MIT](https://github.com/shba007/nuxtemplate/blob/main/LICENSE) license.
+Published under the [MIT](https://github.com/Modest-Human-Brands/msync/blob/main/LICENSE) license.
 <br><br>
-<a href="https://github.com/shba007/nuxtemplate/graphs/contributors">
-<img src="https://contrib.rocks/image?repo=shba007/nuxtemplate" />
+<a href="https://github.com/Modest-Human-Brands/msync/graphs/contributors">
+<img src="https://contrib.rocks/image?repo=Modest-Human-Brands/msync" />
 </a>
